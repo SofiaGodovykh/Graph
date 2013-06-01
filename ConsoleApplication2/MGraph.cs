@@ -9,7 +9,7 @@ namespace ConsoleApplication2
             : base(D, F)
         {
             Type = true;
-            Matrix = new Edge<TEdge, TWeight, TVertex>[numberVertex,numberVertex];
+            Matrix = new Edge<TEdge, TWeight, TVertex>[numberVertex, numberVertex];
             Oriented = D;
 
             for (int i = 0; i < numberVertex; i++)
@@ -23,7 +23,7 @@ namespace ConsoleApplication2
         {
             Type = true;
             Oriented = D;
-            Matrix = new Edge<TEdge, TWeight, TVertex>[numberVertex,numberVertex];
+            Matrix = new Edge<TEdge, TWeight, TVertex>[numberVertex, numberVertex];
 
             for (int i = 0; i < numberVertex; i++)
             {
@@ -43,7 +43,7 @@ namespace ConsoleApplication2
             var v = new Vertex<TVertex>();
             v.Index = CurrentIndex;
             var M = Matrix;
-            Matrix = new Edge<TEdge, TWeight, TVertex>[Vertexes.Count + 1,Vertexes.Count + 1];
+            Matrix = new Edge<TEdge, TWeight, TVertex>[Vertexes.Count + 1, Vertexes.Count + 1];
 
             for (int i = 0; i < Vertexes.Count; i++)
             {
@@ -67,7 +67,7 @@ namespace ConsoleApplication2
         public override bool DeleteVertex(Vertex<TVertex> vertex)
         {
             var M = Matrix;
-            Matrix = new Edge<TEdge, TWeight, TVertex>[Vertexes.Count - 1,Vertexes.Count - 1];
+            Matrix = new Edge<TEdge, TWeight, TVertex>[Vertexes.Count - 1, Vertexes.Count - 1];
             int im = 0, jm = 0;
             for (int i = 0; i < Vertexes.Count; i++, im++)
             {
@@ -118,7 +118,7 @@ namespace ConsoleApplication2
             else
             {
                 if (v1.Index > v2.Index)
-                    //будем добавлять вершины в порядке возрастания индексов, чтобы не добавлять проверок в добавление
+                //будем добавлять вершины в порядке возрастания индексов, чтобы не добавлять проверок в добавление
                 {
                     var v = v1;
                     v1 = v2;
@@ -176,129 +176,183 @@ namespace ConsoleApplication2
             {
                 if (ItGraph.EdgesCount == 0)
                     return false;
-                if (ItGraph.Oriented == false) //для неориентированного
+                for (int i = 0; i < ItGraph.Vertexes.Count; i++)
                 {
-                    for (int i = 0; i < ItGraph.Vertexes.Count; i++)
+                    for (int j = 0; j < ItGraph.Vertexes.Count; j++)
                     {
-                        for (int j = 0; j < ItGraph.Vertexes.Count; j++)
+                        if (ItGraph.Matrix[i, j] != null)
                         {
-                            if (ItGraph.Matrix[i, j] != null)
-                            {
-                                if (ItGraph.Matrix[i, j].Vertex1.Index < ItGraph.Matrix[i, j].Vertex2.Index)
-                                {
-                                    State = true;
-                                    I = i;
-                                    J = j;
-                                    return true;
-                                }
-                            }
+                            I = i;
+                            J = j;
+                            State = true;
+                            return true;
                         }
                     }
-                    return false;
                 }
 
-                else //для ориентированного
-                {
-                    for (int i = 0; i < ItGraph.Vertexes.Count; i++)
-                    {
-                        for (int j = 0; j < ItGraph.Vertexes.Count; j++)
-                        {
-                            if (ItGraph.Matrix[i, j] != null)
-                            {
-                                State = true;
-                                I = i;
-                                J = j;
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
-                }
+                State = false;
+                return false;
             }
 
             public override bool End()
             {
                 if (ItGraph.EdgesCount == 0)
                     return false;
-                if (ItGraph.Oriented == false) //для неориентированного
-                {
-                    for (int i = ItGraph.Vertexes.Count - 1; i > -1; i++)
-                    {
-                        for (int j = ItGraph.Vertexes.Count - 1; j > -1; j++)
-                        {
-                            if (ItGraph.Matrix[i, j] != null)
-                            {
-                                if (ItGraph.Matrix[i, j].Vertex1.Index < ItGraph.Matrix[i, j].Vertex2.Index)
-                                {
-                                    State = true;
-                                    I = i;
-                                    J = j;
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                    return false;
-                }
 
-                else //для ориентированного
+                if (ItGraph.Oriented == false)
                 {
-                    for (int i = ItGraph.Vertexes.Count - 1; i > -1; i++)
+                    for (int i = ItGraph.Vertexes.Count - 1; i > -1; i--)
                     {
-                        for (int j = ItGraph.Vertexes.Count - 1; j > -1; j++)
+                        for (int j = ItGraph.Vertexes.Count - 1; j != i; j--)
                         {
+                            if (i == ItGraph.Vertexes.Count - 1 && j == ItGraph.Vertexes.Count - 1)
+                                break;
                             if (ItGraph.Matrix[i, j] != null)
                             {
-                                State = true;
                                 I = i;
                                 J = j;
+                                State = true;
                                 return true;
                             }
                         }
                     }
+
+                    State = false;
                     return false;
                 }
+
+
+                for (int i = ItGraph.Vertexes.Count - 1; i > -1; i--)
+                {
+                    for (int j = ItGraph.Vertexes.Count - 1; j > -1; j--)
+                    {
+                        if (ItGraph.Matrix[i, j] != null)
+                        {
+                            I = i;
+                            J = j;
+                            State = true;
+                            return true;
+                        }
+                    }
+                }
+                return false;
             }
+
+            //if (ItGraph.Oriented == false) //для неориентированного
+            //{
+            //    for (int i = ItGraph.Vertexes.Count - 1; i > -1; i--)
+            //    {
+            //        for (int j = ItGraph.Vertexes.Count - 1; j > -1; j--)
+            //        {
+            //            if (ItGraph.Matrix[i, j] != null)
+            //            {
+            //                if (ItGraph.Matrix[i, j].Vertex1.Index < ItGraph.Matrix[i, j].Vertex2.Index)
+            //                {
+            //                    State = true;
+            //                    I = i;
+            //                    J = j;
+            //                    return true;
+            //                }
+            //            }
+            //        }
+            //    }
+            //    return false;
+            //}
+
+            //else //для ориентированного
+            //{
+            //    for (int i = ItGraph.Vertexes.Count - 1; i > -1; i++)
+            //    {
+            //        for (int j = ItGraph.Vertexes.Count - 1; j > -1; j++)
+            //        {
+            //            if (ItGraph.Matrix[i, j] != null)
+            //            {
+            //                State = true;
+            //                I = i;
+            //                J = j;
+            //                return true;
+            //            }
+            //        }
+            //    }
+            //    return false;
+            //}
+
 
             public override void Next()
             {
                 if (State == false)
                     return;
-                if (ItGraph.Oriented == false) //для неориентированного
+                if (ItGraph.Oriented == false)
                 {
-                    for (int p = J + 1; p < ItGraph.Vertexes.Count; p++)
+                    if (J < ItGraph.Vertexes.Count)
                     {
-                        if (ItGraph.Matrix[I, p] != null)
+                        for (; J < ItGraph.Vertexes.Count; )
                         {
-                            if (ItGraph.Matrix[I, p].Vertex1.Index < ItGraph.Matrix[I, p].Vertex2.Index)
+                            J++;
+                            if (J == ItGraph.Vertexes.Count)
+                                break;
+
+                            if (ItGraph.Matrix[I, J] != null)
                             {
-                                J = p;
                                 return;
                             }
                         }
                     }
 
-                    for (int i = I + 1; i < ItGraph.Vertexes.Count; i++)
+                    for (I++; I < ItGraph.Vertexes.Count; I++)
                     {
-                        if (i == ItGraph.Vertexes.Count)
+                        if (I == ItGraph.Vertexes.Count)
                         {
                             State = false;
                             return;
                         }
 
-                        for (int j = 0; j < ItGraph.Vertexes.Count; j++)
+                        for (J = I + 1; J < ItGraph.Vertexes.Count; J++)
                         {
-                            if (ItGraph.Matrix[i, j] != null)
+                            if (J == ItGraph.Vertexes.Count)
+                                break;
+                            if (ItGraph.Matrix[I, J] != null)
+                                return;
+                        }
+                    }
+                    State = false;
+                    return;
+                }
+
+                else
+                {
+                    if (J < ItGraph.Vertexes.Count)
+                    {
+                        for (; J < ItGraph.Vertexes.Count; )
+                        {
+                            J++;
+                            if (J == ItGraph.Vertexes.Count)
+                                break;
+
+                            if (ItGraph.Matrix[I, J] != null)
                             {
-                                if (ItGraph.Matrix[i, j].Vertex1.Index < ItGraph.Matrix[i, j].Vertex2.Index)
-                                {
-                                    I = i;
-                                    J = j;
-                                    return;
-                                }
+                                return;
                             }
                         }
                     }
+
+                    for (I++; I < ItGraph.Vertexes.Count; I++)
+                    {
+                        if (I == ItGraph.Vertexes.Count)
+                        {
+                            State = false;
+                            return;
+                        }
+
+                        for (J = 0; J < ItGraph.Vertexes.Count; J++)
+                        {
+                            if (J == ItGraph.Vertexes.Count)
+                                break;
+                            if (ItGraph.Matrix[I, J] != null)
+                                return;
+                        }
+                    }
+                    State = false;
                     return;
                 }
             }
