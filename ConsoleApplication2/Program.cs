@@ -149,8 +149,10 @@ namespace ConsoleApplication2
 
                 case 12:
                     {
-                        Console.WriteLine("Итератор всех ребер");
-                        var it = Graph<TTVertex, TTEdge, TTData, TTWeight>.IteratorAllEdges.MakeIt(GRAPH.G);
+                        Console.WriteLine("Итератор исходящих ребер");
+                        Console.WriteLine("Введите индекс вершины");
+                        int ind = int.Parse(Console.ReadLine());
+                        var it = Graph<TTVertex, TTEdge, TTData, TTWeight>.IteratorInputEdge.MakeIt(GRAPH.G.Vertexes[ind], GRAPH.G);
                         Console.WriteLine("1 - установка на начало");
                         Console.WriteLine("2 - установка на конец");
                         Console.WriteLine("3 - следующий");

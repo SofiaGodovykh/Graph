@@ -449,7 +449,8 @@ namespace ConsoleApplication2
             }
         }
 
-        internal class LIteratorOutEdge : IteratorOutEdge
+        ////internal class LIteratorAllEdges : Graph<TVertex, TEdge, TData, TWeight>.IteratorAllEdges
+        internal class LIteratorOutEdge : Graph<TVertex, TEdge, TData, TWeight>.IteratorOutEdge
         {
             public LIteratorOutEdge(Vertex<TVertex> v, Graph<TVertex, TEdge, TData, TWeight> g):base(v, g)
             {
@@ -515,7 +516,8 @@ namespace ConsoleApplication2
             }
         }
 
-        internal class LIteratorInputEdge: IteratorInputEdge
+        //internal class LIteratorAllEdges : Graph<TVertex, TEdge, TData, TWeight>.IteratorAllEdges
+        internal class LIteratorInputEdge : Graph<TVertex, TEdge, TData, TWeight>.IteratorInputEdge
         {
              public LIteratorInputEdge(Vertex<TVertex> v, Graph<TVertex, TEdge, TData, TWeight> g):base(v, g)
              {

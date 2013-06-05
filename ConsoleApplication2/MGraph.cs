@@ -422,19 +422,10 @@ namespace ConsoleApplication2
                     return;
                 for (int i = J + 1; i < ItGraph.Vertexes.Count; i++)
                 {
-                    if (i == ItGraph.Vertexes.Count - 1)
+                    if (ItGraph.Matrix[ItGraph.Vertexes.IndexOf(ItVertex), i] != null)
                     {
-                        State = false;
+                        J = i;
                         return;
-                    }
-
-                    else
-                    {
-                        if (ItGraph.Matrix[ItGraph.Vertexes.IndexOf(ItVertex), i] != null)
-                        {
-                            J = i;
-                            return;
-                        }
                     }
                 }
                 State = false;

@@ -67,6 +67,22 @@ namespace ConsoleApplication2
                 //ItGraph = g;
             }
 
+            public static IteratorOutEdge MakeIt(Vertex<TVertex> v, Graph<TVertex, TEdge, TData, TWeight> g)
+            {
+                if (g.Type == false)
+                {
+                    //IteratorOutEdge q;
+                    var q = new LGraph<TVertex, TEdge, TData, TWeight>.LIteratorOutEdge(v, g);
+                    return q;
+                }
+
+                else
+                {
+                    var q = new MGraph<TVertex, TEdge, TData, TWeight>.MIteratorOutEdge(v, g);
+                    return q;
+                }
+            }
+
             public abstract bool Beg();
             public abstract bool End();
             public abstract void Next();
@@ -88,6 +104,22 @@ namespace ConsoleApplication2
                 //ItGraph = g;
                 I = 0;
                 J = 0;
+            }
+
+            public static IteratorInputEdge MakeIt(Vertex<TVertex> v, Graph<TVertex, TEdge, TData, TWeight> g)
+            {
+                if (g.Type == false)
+                {
+                    //IteratorOutEdge q;
+                    var q = new LGraph<TVertex, TEdge, TData, TWeight>.LIteratorInputEdge(v, g);
+                    return q;
+                }
+
+                else
+                {
+                    var q = new MGraph<TVertex, TEdge, TData, TWeight>.MIteratorInputEdge(v, g);
+                    return q;
+                }
             }
 
             public abstract bool Beg();
