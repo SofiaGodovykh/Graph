@@ -1,4 +1,4 @@
-﻿
+﻿/*
 
 using System;
 using System.Collections.Generic;
@@ -57,6 +57,7 @@ namespace ConsoleApplication2
                     graph = new GoGraph<TTVertex, TTEdge, TTData, TTWeight>(v1, e1, d1, f1);
 
                     break; */
+/*
                 case 4:
                     {
                         GRAPH.AddVertex();
@@ -230,5 +231,58 @@ namespace ConsoleApplication2
             
             Console.Read();
         }
+    }
+}
+*/
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text   ;
+using TTWeight = System.Int32 ;
+using TTVertex = System.Int32;
+using TTData = System.Int32;
+using TTEdge = System.Int32;
+
+
+
+namespace ConsoleApplication2
+{
+    class Program
+    {
+         static void Main(string[] args)
+         {
+             var graph = new GoGraph<TTVertex, TTEdge, TTData, TTWeight>();
+             for (int i = 0; i < 10; i++)
+             {
+                 graph.AddVertex();
+             }
+
+             graph.G.Oriented = true;
+             graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[1]);
+             graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[2]);
+             graph.AddEdge(graph.G.Vertexes[1], graph.G.Vertexes[8]);
+             graph.AddEdge(graph.G.Vertexes[1], graph.G.Vertexes[3]);
+             graph.AddEdge(graph.G.Vertexes[2], graph.G.Vertexes[4]);
+             graph.AddEdge(graph.G.Vertexes[3], graph.G.Vertexes[5]);
+             graph.AddEdge(graph.G.Vertexes[3], graph.G.Vertexes[7]);
+             graph.AddEdge(graph.G.Vertexes[4], graph.G.Vertexes[7]);
+             graph.AddEdge(graph.G.Vertexes[5], graph.G.Vertexes[2]);
+             graph.AddEdge(graph.G.Vertexes[6], graph.G.Vertexes[4]);
+             graph.AddEdge(graph.G.Vertexes[6], graph.G.Vertexes[9]);
+             graph.AddEdge(graph.G.Vertexes[9], graph.G.Vertexes[3]);
+             graph.AddEdge(graph.G.Vertexes[9], graph.G.Vertexes[8]);
+
+             //graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[3]);
+             //graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[1]);
+             //graph.AddEdge(graph.G.Vertexes[1], graph.G.Vertexes[2]);
+             graph.Print();
+
+             var dag = new DAGSort<TTVertex, TTEdge, TTData, TTWeight>(graph);
+             dag.EnterSort();
+
+             Console.ReadLine();
+         }
+        
     }
 }

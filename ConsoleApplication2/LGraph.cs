@@ -567,6 +567,8 @@ namespace ConsoleApplication2
                                 J = j;
                                 return true;
                             }
+
+                            q = q.Next;
                         }
                     }
                     return false;
@@ -678,29 +680,7 @@ namespace ConsoleApplication2
 
                     else
                     {
-                        var q = ItGraph.Adj[I].Head;
-                        bool f = false;
-                        for (int k = J; k < ItGraph.Adj[I].Length; k++)//если в этом же списке
-                        {
-                            if (f == false && q.AdjEdge.Equals(Input()))//был найден элемент
-                            {
-                                f = true;
-                            }
-
-                            q = q.Next;
-                            if (q == null)
-                                break;
-                            if (f)
-                            {
-                                if (q.AdjEdge.Vertex2.Equals(ItVertex))
-                                {
-                                    J = k;
-                                    return;
-                                }
-                            }
-                        }
-
-                        for (int i = I + 1  ; i < ItGraph.Vertexes.Count; i++)
+                        for (int i = I + 1; i < ItGraph.Vertexes.Count; i++)
                         {
                             if (i == ItGraph.Vertexes.Count)
                             {
@@ -708,22 +688,71 @@ namespace ConsoleApplication2
                                 return;
                             }
 
-                            var p = ItGraph.Adj[i].Head;
-                            for (int j = 0; j < ItGraph.Adj[i].Length; j++)
+                            var q = ItGraph.Adj[i].Head;
+                            for (int j = 0; ; j++)
                             {
-                                if(p == null)
+                                if(q == null)
                                     break;
-                                if (p.AdjEdge.Vertex2.Equals(ItVertex))
+
+                                if (q.AdjEdge.Vertex2.Index == ItVertex.Index)
                                 {
                                     I = i;
                                     J = j;
                                     return;
                                 }
-                                p = p.Next;
+
+                                q = q.Next;
                             }
                         }
                         State = false;
                         return;
+                        //var q = ItGraph.Adj[I].Head;
+                        //bool f = false;
+                        //for (int k = J; k < ItGraph.Adj[I].Length; k++)//если в этом же списке
+                        //{
+                        //    if (f == false && q.AdjEdge.Equals(Input()))//был найден элемент
+                        //    {
+                        //        f = true;
+                        //    }
+
+                        //    q = q.Next;
+                        //    if (q == null)
+                        //        break;
+
+                        //    if (f)
+                        //    {
+                        //        if (q.AdjEdge.Vertex2.Equals(ItVertex))
+                        //        {
+                        //            J = k;
+                        //            return;
+                        //        }
+                        //    }
+                        //}
+
+                        //for (int i = I + 1  ; i < ItGraph.Vertexes.Count; i++)
+                        //{
+                        //    if (i == ItGraph.Vertexes.Count)
+                        //    {
+                        //        State = false;
+                        //        return;
+                        //    }
+
+                        //    var p = ItGraph.Adj[i].Head;
+                        //    for (int j = 0; j < ItGraph.Adj[i].Length; j++)
+                        //    {
+                        //        if(p == null)
+                        //            break;
+                        //        if (p.AdjEdge.Vertex2.Equals(ItVertex))
+                        //        {
+                        //            I = i;
+                        //            J = j;
+                        //            return;
+                        //        }
+                        //        p = p.Next;
+                        //    }
+                        //}
+                        //State = false;
+                        //return;
                     }
                 }
             }
@@ -743,7 +772,7 @@ namespace ConsoleApplication2
                     q = q.Next;
                 }
                 return null;
-            }
-        }
+            } 
+        } 
     }
 }
