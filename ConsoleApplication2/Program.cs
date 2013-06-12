@@ -252,35 +252,59 @@ namespace ConsoleApplication2
     {
          static void Main(string[] args)
          {
-             var graph = new GoGraph<TTVertex, TTEdge, TTData, TTWeight>();
-             for (int i = 0; i < 10; i++)
+             //var graph = new GoGraph<TTVertex, TTEdge, TTData, TTWeight>();
+             //for (int i = 0; i < 10; i++)
+             //{
+             //    graph.AddVertex();
+             //}
+
+             //graph.G.Oriented = true;
+             //graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[1]);
+             //graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[2]);
+             //graph.AddEdge(graph.G.Vertexes[1], graph.G.Vertexes[8]);
+             //graph.AddEdge(graph.G.Vertexes[1], graph.G.Vertexes[3]);
+             //graph.AddEdge(graph.G.Vertexes[2], graph.G.Vertexes[4]);
+             //graph.AddEdge(graph.G.Vertexes[3], graph.G.Vertexes[5]);
+             //graph.AddEdge(graph.G.Vertexes[3], graph.G.Vertexes[7]);
+             //graph.AddEdge(graph.G.Vertexes[4], graph.G.Vertexes[7]);
+             //graph.AddEdge(graph.G.Vertexes[5], graph.G.Vertexes[2]);
+             //graph.AddEdge(graph.G.Vertexes[6], graph.G.Vertexes[4]);
+             //graph.AddEdge(graph.G.Vertexes[6], graph.G.Vertexes[9]);
+             //graph.AddEdge(graph.G.Vertexes[9], graph.G.Vertexes[3]);
+             //graph.AddEdge(graph.G.Vertexes[9], graph.G.Vertexes[8]);
+
+             ////graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[3]);
+             ////graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[1]);
+             ////graph.AddEdge(graph.G.Vertexes[1], graph.G.Vertexes[2]);
+             //graph.Print();
+
+             //var dag = new DAGSort<TTVertex, TTEdge, TTData, TTWeight>(graph);
+             //dag.EnterSort();
+
+             PriorityQueue Q = new PriorityQueue();
+             Q.Enqueue(10, 0);
+             Q.Enqueue(18,0);
+             Q.Enqueue(8, 0);
+             Q.Enqueue(5, 0);
+             Q.Enqueue(9, 0);
+             Q.Enqueue(10, 0);
+             Q.Enqueue(6, 0);
+             Q.Enqueue(9, 0);
+             Q.Enqueue(3, 0);
+             Q.Enqueue(10, 0);
+             Q.Enqueue(19, 0);
+
+             for (int i = 0; i < Q.PrioQueue.Count; i++)
              {
-                 graph.AddVertex();
+                 Console.WriteLine(Q.PrioQueue[i][0]);
              }
 
-             graph.G.Oriented = true;
-             graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[1]);
-             graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[2]);
-             graph.AddEdge(graph.G.Vertexes[1], graph.G.Vertexes[8]);
-             graph.AddEdge(graph.G.Vertexes[1], graph.G.Vertexes[3]);
-             graph.AddEdge(graph.G.Vertexes[2], graph.G.Vertexes[4]);
-             graph.AddEdge(graph.G.Vertexes[3], graph.G.Vertexes[5]);
-             graph.AddEdge(graph.G.Vertexes[3], graph.G.Vertexes[7]);
-             graph.AddEdge(graph.G.Vertexes[4], graph.G.Vertexes[7]);
-             graph.AddEdge(graph.G.Vertexes[5], graph.G.Vertexes[2]);
-             graph.AddEdge(graph.G.Vertexes[6], graph.G.Vertexes[4]);
-             graph.AddEdge(graph.G.Vertexes[6], graph.G.Vertexes[9]);
-             graph.AddEdge(graph.G.Vertexes[9], graph.G.Vertexes[3]);
-             graph.AddEdge(graph.G.Vertexes[9], graph.G.Vertexes[8]);
+             Console.WriteLine();
 
-             //graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[3]);
-             //graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[1]);
-             //graph.AddEdge(graph.G.Vertexes[1], graph.G.Vertexes[2]);
-             graph.Print();
-
-             var dag = new DAGSort<TTVertex, TTEdge, TTData, TTWeight>(graph);
-             dag.EnterSort();
-
+             while (Q.PrioQueue.Count != 1)
+             {
+                 Console.WriteLine(Q.Dequeue()[0]);
+             }
              Console.ReadLine();
          }
         
