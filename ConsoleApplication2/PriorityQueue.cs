@@ -5,19 +5,19 @@ using System.Text;
 
 namespace ConsoleApplication2
 {
-    class PriorityQueue<TWeight>
+    class PriorityQueue
     {
-        public List<QueueNode<TWeight>> PrioQueue;
+        public List<QueueNode> PrioQueue;
 
-        public class QueueNode<TWeight>
+        public class QueueNode
         {
-            public TWeight Pr;
-            public int Number;
-
-            public QueueNode(TWeight p, int n)
+            public float PriorityWeight;
+            public int Parent;
+            public int QueIndex;
+            public QueueNode(float p, int n)
             {
-                Pr = p;
-                Number = n;
+                PriorityWeight = p;
+                Parent = n;
             }
         }
 
@@ -25,18 +25,20 @@ namespace ConsoleApplication2
 
         public PriorityQueue()
         {
-            PrioQueue = new List<QueueNode<TWeight>>();
+            PrioQueue = new List<QueueNode>();
             QueueLength = 0;
-            PrioQueue.Add(new QueueNode<TWeight> (default(TWeight), -1));
+            var e = new QueueNode(-100, -100);
+            e.QueIndex = -100;
+            PrioQueue.Add(e);
         }
 
-        public void Enqueue(TWeight prio, int number)
+        public void Enqueue(QueueNode q)
         {
             QueueLength++;
-            PrioQueue.Add(new QueueNode<TWeight> (prio, number));
+            PrioQueue.Add(q);
             int i = QueueLength;
-            QueueNode<TWeight> temp;
-            while (i > 1 && PrioQueue[i].Pr < PrioQueue[(i/2)].Pr)
+            QueueNode temp;
+            while (i > 1 && PrioQueue[i].PriorityWeight < PrioQueue[(i/2)].PriorityWeight)
             {
                 temp = PrioQueue[i];
                 PrioQueue[i] = PrioQueue[i/2];
@@ -46,22 +48,23 @@ namespace ConsoleApplication2
             return;
         }
 
-        public QueueNode<TWeight> Dequeue()
+        public QueueNode Dequeue()
         {
             if (QueueLength == 0)
                 return null;
             var x = PrioQueue[1];
-            PrioQueue[0] = PrioQueue[PrioQueue.Count - 1];
+            PrioQueue[1] = PrioQueue[PrioQueue.Count - 1];
+            QueueLength--;
             int i = 1;
             int j;
-            QueueNode<TWeight> temp;
-            while (i < PrioQueue.Count/2)
+            QueueNode temp;
+            while (i <= QueueLength/2)
             {
-                if (2*i < QueueLength && PrioQueue[2*i + 1].Pr < PrioQueue[2*i].Pr)
+                if (2*i < QueueLength && PrioQueue[2*i + 1].PriorityWeight < PrioQueue[2*i].PriorityWeight)
                     j = 2*i + 1;
                 j = 2*i;
 
-                if (PrioQueue[i].Pr > PrioQueue[j].Pr)
+                if (PrioQueue[i].PriorityWeight > PrioQueue[j].PriorityWeight)
                 {
                     temp = PrioQueue[i];
                     PrioQueue[i] = PrioQueue[j];
@@ -71,11 +74,27 @@ namespace ConsoleApplication2
 
                 else
                 {
-                    i = PrioQueue.Count - 1;
+                    i = QueueLength;
                 }
             }
-            PrioQueue.RemoveAt(1);
+            PrioQueue.RemoveAt(PrioQueue.Count - 1);
+            //QueueLength--;
             return x;
         }
+
+        public int IfContains(int ind)
+        {
+            for (int i = 1; i < PrioQueue.Count; i++)
+            {
+                if (PrioQueue[i].QueIndex == ind)
+                    return i;
+            }
+            return -1;
+        }
+
+        //public void Pull(int ind)
+        //{
+        //    PrioQueue.RemoveAt(ind);
+        //}
     }
 }

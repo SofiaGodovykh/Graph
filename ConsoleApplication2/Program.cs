@@ -252,60 +252,92 @@ namespace ConsoleApplication2
     {
          static void Main(string[] args)
          {
-             //var graph = new GoGraph<TTVertex, TTEdge, TTData, TTWeight>();
-             //for (int i = 0; i < 10; i++)
-             //{
-             //    graph.AddVertex();
-             //}
+             var graph = new GoGraph<TTVertex, TTEdge, TTData, float>();
+             graph.G.Oriented = false;
+             graph.G.Weighted = true;
 
-             //graph.G.Oriented = true;
-             //graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[1]);
-             //graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[2]);
-             //graph.AddEdge(graph.G.Vertexes[1], graph.G.Vertexes[8]);
-             //graph.AddEdge(graph.G.Vertexes[1], graph.G.Vertexes[3]);
-             //graph.AddEdge(graph.G.Vertexes[2], graph.G.Vertexes[4]);
-             //graph.AddEdge(graph.G.Vertexes[3], graph.G.Vertexes[5]);
-             //graph.AddEdge(graph.G.Vertexes[3], graph.G.Vertexes[7]);
-             //graph.AddEdge(graph.G.Vertexes[4], graph.G.Vertexes[7]);
-             //graph.AddEdge(graph.G.Vertexes[5], graph.G.Vertexes[2]);
-             //graph.AddEdge(graph.G.Vertexes[6], graph.G.Vertexes[4]);
-             //graph.AddEdge(graph.G.Vertexes[6], graph.G.Vertexes[9]);
-             //graph.AddEdge(graph.G.Vertexes[9], graph.G.Vertexes[3]);
-             //graph.AddEdge(graph.G.Vertexes[9], graph.G.Vertexes[8]);
-
-             ////graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[3]);
-             ////graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[1]);
-             ////graph.AddEdge(graph.G.Vertexes[1], graph.G.Vertexes[2]);
-             //graph.Print();
-
-             //var dag = new DAGSort<TTVertex, TTEdge, TTData, TTWeight>(graph);
-             //dag.EnterSort();
-
-             PriorityQueue Q = new PriorityQueue();
-             Q.Enqueue(10, 0);
-             Q.Enqueue(18,0);
-             Q.Enqueue(8, 0);
-             Q.Enqueue(5, 0);
-             Q.Enqueue(9, 0);
-             Q.Enqueue(10, 0);
-             Q.Enqueue(6, 0);
-             Q.Enqueue(9, 0);
-             Q.Enqueue(3, 0);
-             Q.Enqueue(10, 0);
-             Q.Enqueue(19, 0);
-
-             for (int i = 0; i < Q.PrioQueue.Count; i++)
+             for (int i = 0; i < 9; i++)
              {
-                 Console.WriteLine(Q.PrioQueue[i][0]);
+                 graph.AddVertex();
              }
 
-             Console.WriteLine();
+             graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[1]).Weight = 4;
+             graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[8]).Weight = 8;
+             graph.AddEdge(graph.G.Vertexes[1], graph.G.Vertexes[8]).Weight = 11;
+             graph.AddEdge(graph.G.Vertexes[1], graph.G.Vertexes[2]).Weight = 8;
+             graph.AddEdge(graph.G.Vertexes[2], graph.G.Vertexes[7]).Weight = 2;
+             graph.AddEdge(graph.G.Vertexes[2], graph.G.Vertexes[5]).Weight = 4;
+             graph.AddEdge(graph.G.Vertexes[2], graph.G.Vertexes[3]).Weight = 7;
+             graph.AddEdge(graph.G.Vertexes[3], graph.G.Vertexes[5]).Weight = 14;
+             graph.AddEdge(graph.G.Vertexes[3], graph.G.Vertexes[4]).Weight = 9;
+             graph.AddEdge(graph.G.Vertexes[4], graph.G.Vertexes[5]).Weight = 10;
+             graph.AddEdge(graph.G.Vertexes[5], graph.G.Vertexes[6]).Weight = 2;
+             graph.AddEdge(graph.G.Vertexes[6], graph.G.Vertexes[7]).Weight = 6;
+             graph.AddEdge(graph.G.Vertexes[6], graph.G.Vertexes[8]).Weight = 1;
+             graph.AddEdge(graph.G.Vertexes[7], graph.G.Vertexes[8]).Weight = 7;
 
-             while (Q.PrioQueue.Count != 1)
+             var pr = new Prim<TTVertex, TTEdge, TTData, float>(graph);
+
+             pr.MST_Prim(pr.PrimGraph.G.Vertexes[0]);
+
+             for (int i = 0; i < pr.Spanning.Count; i++)
              {
-                 Console.WriteLine(Q.Dequeue()[0]);
+                 Console.WriteLine(pr.Spanning[i].Pr.ToString() + " " + pr.Spanning[i].V.Index.ToString());
              }
-             Console.ReadLine();
+                 //var graph = new GoGraph<TTVertex, TTEdge, TTData, TTWeight>();
+                 //for (int i = 0; i < 10; i++)
+                 //{
+                 //    graph.AddVertex();
+                 //}
+
+                 //graph.G.Oriented = true;
+                 //graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[1]);
+                 //graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[2]);
+                 //graph.AddEdge(graph.G.Vertexes[1], graph.G.Vertexes[8]);
+                 //graph.AddEdge(graph.G.Vertexes[1], graph.G.Vertexes[3]);
+                 //graph.AddEdge(graph.G.Vertexes[2], graph.G.Vertexes[4]);
+                 //graph.AddEdge(graph.G.Vertexes[3], graph.G.Vertexes[5]);
+                 //graph.AddEdge(graph.G.Vertexes[3], graph.G.Vertexes[7]);
+                 //graph.AddEdge(graph.G.Vertexes[4], graph.G.Vertexes[7]);
+                 //graph.AddEdge(graph.G.Vertexes[5], graph.G.Vertexes[2]);
+                 //graph.AddEdge(graph.G.Vertexes[6], graph.G.Vertexes[4]);
+                 //graph.AddEdge(graph.G.Vertexes[6], graph.G.Vertexes[9]);
+                 //graph.AddEdge(graph.G.Vertexes[9], graph.G.Vertexes[3]);
+                 //graph.AddEdge(graph.G.Vertexes[9], graph.G.Vertexes[8]);
+
+                 ////graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[3]);
+                 ////graph.AddEdge(graph.G.Vertexes[0], graph.G.Vertexes[1]);
+                 ////graph.AddEdge(graph.G.Vertexes[1], graph.G.Vertexes[2]);
+                 //graph.Print();
+
+                 //var dag = new DAGSort<TTVertex, TTEdge, TTData, TTWeight>(graph);
+                 //dag.EnterSort();
+
+                 //PriorityQueue Q = new PriorityQueue();
+                 //Q.Enqueue(10, 0);
+                 //Q.Enqueue(18,0);
+                 //Q.Enqueue(8, 0);
+                 //Q.Enqueue(5, 0);
+                 //Q.Enqueue(9, 0);
+                 //Q.Enqueue(10, 0);
+                 //Q.Enqueue(6, 0);
+                 //Q.Enqueue(9, 0);
+                 //Q.Enqueue(3, 0);
+                 //Q.Enqueue(10, 0);
+                 //Q.Enqueue(19, 0);
+
+                 //for (int i = 0; i < Q.PrioQueue.Count; i++)
+                 //{
+                 //    Console.WriteLine(Q.PrioQueue[i][0]);
+                 //}
+
+                 //Console.WriteLine();
+
+                 //while (Q.PrioQueue.Count != 1)
+                 //{
+                 //    Console.WriteLine(Q.Dequeue()[0]);
+                 //}
+                 Console.ReadLine();
          }
         
     }
