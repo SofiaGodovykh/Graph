@@ -38,16 +38,16 @@ namespace ConsoleApplication2
 
         public bool from(Vertex<TVertex> vertex)
         {
-            if (Vertex1.Equals(vertex))
+            if (Vertex1.Index == vertex.Index)
                 return true;
             return false;
         }
 
         public Vertex<TVertex> other(Vertex<TVertex> vertex)
         {
-            if (Vertex1.Equals(vertex))
+            if (Vertex1.Index == vertex.Index)
                 return Vertex2;
-            if (Vertex2.Equals(vertex))
+            if (Vertex2.Index == vertex.Index)
                 return Vertex1;
 
             return null;

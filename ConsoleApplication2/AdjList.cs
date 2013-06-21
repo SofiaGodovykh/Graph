@@ -49,15 +49,15 @@ namespace ConsoleApplication2
             }
 
             Node q = Head;
-            if ((q.AdjEdge.Vertex1.Equals(edge.Vertex1) && q.AdjEdge.Vertex2.Equals(edge.Vertex2)))
+            if ((q.AdjEdge.Vertex1.Index == edge.Vertex1.Index) && q.AdjEdge.Vertex2.Index == edge.Vertex2.Index)
                 return false;
             for (int i = 0; i < Length - 1; i++)
             {
-                if ((q.AdjEdge.Vertex1.Equals(edge.Vertex1) && q.AdjEdge.Vertex2.Equals(edge.Vertex2)))
+                if ((q.AdjEdge.Vertex1.Index == edge.Vertex1.Index) && q.AdjEdge.Vertex2.Index == edge.Vertex2.Index)
                     return false;
                 q = q.Next;
             }
-            if ((q.AdjEdge.Vertex1.Equals(edge.Vertex1) && q.AdjEdge.Vertex2.Equals(edge.Vertex2)))
+            if ((q.AdjEdge.Vertex1.Index == edge.Vertex1.Index) && q.AdjEdge.Vertex2.Index == edge.Vertex2.Index)
             {
                 return false;
             }
@@ -69,12 +69,12 @@ namespace ConsoleApplication2
             }
         }
 
-        public bool DeleteNode(Vertex<TVertex> vertex)
+        public bool DeleteNode(Vertex<TVertex> vertex1, Vertex<TVertex> vertex2)
         {
             if (Length == 0)
                 return false;
 
-            if ((Length == 1) && (Head.AdjEdge.Vertex2.Equals(vertex)))
+            if ((Length == 1) && ((((Head.AdjEdge.Vertex2.Index == vertex2.Index) && (Head.AdjEdge.Vertex1.Index == vertex1.Index)) || ((Head.AdjEdge.Vertex2.Index == vertex1.Index && Head.AdjEdge.Vertex1.Index == vertex2.Index)))))
             {
                 Length--;
                 Head = null;
@@ -82,7 +82,7 @@ namespace ConsoleApplication2
             }
 
             Node q = Head;
-            if (q.AdjEdge.Vertex2.Equals(vertex))
+            if (((Head.AdjEdge.Vertex2.Index == vertex2.Index) && (Head.AdjEdge.Vertex1.Index == vertex1.Index)) || ((Head.AdjEdge.Vertex2.Index == vertex1.Index && Head.AdjEdge.Vertex1.Index == vertex2.Index)))
             {
                 if (q.Next == null)
                 {
@@ -96,17 +96,17 @@ namespace ConsoleApplication2
             }
             for (int i = 0; i < Length - 1; i++)
             {
-                if (q.Next == null)//не нашли
+                if (q == null)//не нашли
                     return false;
 
-                if ((q.Next.AdjEdge.Vertex2.Equals(vertex)) && (q.Next.Next == null))//если стоит в конце
+                if ((((q.Next.AdjEdge.Vertex2.Index == vertex2.Index) && (q.Next.AdjEdge.Vertex1.Index == vertex1.Index)) || ((q.Next.AdjEdge.Vertex2.Index == vertex1.Index && q.Next.AdjEdge.Vertex1.Index == vertex2.Index))) && (q.Next.Next == null))//если стоит в конце
                 {
                     q.Next = null;
                     Length--;
                     return true;
                 }
 
-                if (q.Next.AdjEdge.Vertex2.Equals(vertex))//если не в конце
+                if ((q.Next.AdjEdge.Vertex2.Index == vertex2.Index) && (q.Next.AdjEdge.Vertex1.Index == vertex1.Index) || (q.Next.AdjEdge.Vertex2.Index == vertex1.Index && q.Next.AdjEdge.Vertex1.Index == vertex2.Index))//если не в конце
                 {
                     q.Next = q.Next.Next;
                     Length--;
@@ -129,7 +129,7 @@ namespace ConsoleApplication2
                     return null;
                 if (p.Next == null)
                     return null;
-                if (p.Next.AdjEdge.Vertex1.Equals(q.AdjEdge.Vertex1) && p.Next.AdjEdge.Vertex2.Equals(q.AdjEdge.Vertex2))
+                if (p.Next.AdjEdge.Vertex1.Index == q.AdjEdge.Vertex1.Index && p.Next.AdjEdge.Vertex2.Index == q.AdjEdge.Vertex2.Index)
                     return p;
                 p = p.Next;
             }

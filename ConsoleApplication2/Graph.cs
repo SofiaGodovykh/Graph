@@ -7,9 +7,9 @@ namespace ConsoleApplication2
 {
     abstract class Graph<TVertex, TEdge, TData, TWeight>
     {
+        public bool Type;
         public bool Oriented;
         public bool Weighted;
-        public bool Type;
         public List<Vertex<TVertex>> Vertexes;
         public int CurrentIndex;
         public int EdgesCount;//количество ребер
@@ -271,5 +271,6 @@ namespace ConsoleApplication2
         public abstract bool DeleteVertex(Vertex<TVertex> vertex);
         public abstract Vertex<TVertex> AddVertex();
         public abstract bool DeleteEdge(Vertex<TVertex> vertex1, Vertex<TVertex> vertex2);
+        public abstract Edge<TEdge, TWeight, TVertex> GetEdge(Vertex<TVertex> v1, Vertex<TVertex> v2);
     }
 }

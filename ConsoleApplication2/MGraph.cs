@@ -67,42 +67,53 @@ namespace ConsoleApplication2
         public override bool DeleteVertex(Vertex<TVertex> vertex)
         {
             var M = Matrix;
+            int deletedE = 0;
+           
             Matrix = new Edge<TEdge, TWeight, TVertex>[Vertexes.Count - 1, Vertexes.Count - 1];
             int im = 0, jm = 0;
+           // int i, j = 0;
+            int ii = 0, jj = 0;
             for (int i = 0; i < Vertexes.Count; i++, im++)
             {
                 if (i == Vertexes.IndexOf(vertex)) //если дошли до строчки, которой не будет
+                {
+                    ii = i;
                     i++;
+                }
                 jm = 0;
                 for (int j = 0; j < Vertexes.Count; j++, jm++)
                 {
                     if (j == Vertexes.IndexOf(vertex)) //если дошли до столбца, которого не будет
+                    {
+                        jj = j;
                         j++;
+                    }
                     Matrix[im, jm] = M[i, j];
                 }
             }
-            //bool fj = false;
-            //bool fi = false;
-            //if (i == Vertexes.IndexOf(vertex))
-            //    fi = true;
-            //for (int j = 0; j < Vertexes.Count; j++)
-            //{
-            //    if (j == Vertexes.IndexOf(vertex))
-            //        fj = true;
-            //    if((!fj)&&(j != Vertexes.Count - 1)&&(i != Vertexes.Count - 1))
-            //        Matrix[i, j] = M[i, j];
-            //    else
-            //    {
-            //        if((j != Vertexes.Count - 1)&&(i != Vertexes.Count - 1))
-            //        Matrix[i, j] = M[i + 1, j + 1];   
-            //    }
-            //}
-            return Vertexes.Remove(vertex);
+
+            for (int s = 0; s < Vertexes.Count; s++)
+            {
+                if (M[ii, s] != null)
+                    deletedE++;
+            }
+
+            for (int s1 = 0; s1 < Vertexes.Count; s1++)
+            {
+                if (M[s1, jj] != null)
+                    deletedE++;
+            }
+
+            if (Oriented == false)
+                deletedE = deletedE/2;
+
+            EdgesCount = EdgesCount - deletedE;
+                return Vertexes.Remove(vertex);
         }
 
         public override Edge<TEdge, TWeight, TVertex> AddEdge(Vertex<TVertex> v1, Vertex<TVertex> v2)
         {
-            if (v1.Equals(v2))
+            if (v1.Index == v2.Index)
                 return null;
             if (Oriented)
             {
@@ -134,6 +145,27 @@ namespace ConsoleApplication2
                 }
                 return null;
             }
+        }
+
+        public override Edge<TEdge, TWeight, TVertex> GetEdge(Vertex<TVertex> v1, Vertex<TVertex> v2)
+        {
+            int i, j;
+            for (i = 0; i < Vertexes.Count; i++)
+            {
+                if(Vertexes[i].Index == v1.Index)
+                    break;
+            }
+
+            for (j = 0; j < Vertexes.Count; j++)
+            {
+                if(Vertexes[j].Index == v2.Index)
+                    break;
+            }
+
+            if (i >= Vertexes.Count || j >= Vertexes.Count)
+                return null;
+
+            return Matrix[i, j];
         }
 
         public override bool DeleteEdge(Vertex<TVertex> v1, Vertex<TVertex> v2)

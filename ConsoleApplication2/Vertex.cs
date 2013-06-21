@@ -48,12 +48,12 @@ namespace ConsoleApplication2
             this.Data = data;
         }
 
-        public override bool Equals(object obj)
-        {
-            Vertex<TVertex> arg = obj as Vertex<TVertex>;
-            if (arg == null)
-                return false;
-            return ((arg.Name == this.Name) && (arg.Data.Equals(this.Data)) && (arg.Index == this.Index));
-        }
+        //public override bool Equals(object obj)
+        //{
+        //    Vertex<TVertex> arg = obj as Vertex<TVertex>;
+        //    if (arg == null)
+        //        return false;
+        //    return ((arg.Name.Equals(this.Name)) && (arg.Data.Equals(this.Data)) && (arg.Index.Equals(this.Index)));
+        //}
     }
 }

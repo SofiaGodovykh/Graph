@@ -10,6 +10,7 @@ namespace ConsoleApplication2
         public List<MinEdge> Spanning;//минимальное остовное дерево
         public PriorityQueue QueueEdges;//очередь с весами ребер
         public GoGraph<TVertex, TEdge, TData, float> PrimGraph;
+        public Vertex<TVertex> PV;
 
         public class MinEdge
         {
@@ -22,21 +23,22 @@ namespace ConsoleApplication2
                 V = v;
             }
         }
-        public Prim(GoGraph<TVertex, TEdge, TData, float> g)
+        public Prim(GoGraph<TVertex, TEdge, TData, float> g, Vertex<TVertex> v)
         {
             Spanning = new List<MinEdge>();
             QueueEdges = new PriorityQueue();
             PrimGraph = g;
+            PV = v;
         }
 
-        public void MST_Prim(Vertex<TVertex> v1)
+        public void MST_Prim()
         {
 
             int comp;//для опознавания нужной вершины итератором
            
             for (int i = 0; i < PrimGraph.G.Vertexes.Count; i++)//заполнить очередь вершин, вес +inf, предок -1
             {
-                if (i != PrimGraph.G.Vertexes.IndexOf(v1))
+                if (i != PrimGraph.G.Vertexes.IndexOf(PV))
                 {
                     var q = new PriorityQueue.QueueNode(float.PositiveInfinity, -1);
                     q.QueIndex = PrimGraph.G.Vertexes[i].Index;
@@ -45,7 +47,7 @@ namespace ConsoleApplication2
             }
 
             var t = new PriorityQueue.QueueNode(0, 0);//поместили в очередь вершину, от которой строим дерево
-            t.QueIndex = v1.Index;
+            t.QueIndex = PV.Index;
             QueueEdges.Enqueue(t);
 
             var v = QueueEdges.Dequeue(); //достали входящую

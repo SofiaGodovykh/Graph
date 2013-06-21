@@ -36,6 +36,7 @@ namespace ConsoleApplication2
             {
                 AddVertex();
             }
+
             do
             {
                 Random r = new Random();
@@ -64,14 +65,25 @@ namespace ConsoleApplication2
                 if (Adj[i].AdjIndex == vertex.Index)
                     break;
             }
+
             if (i == Adj.Count && Adj[i].AdjIndex != vertex.Index)
                 return false; //не нашли вершину
             if (Oriented) //если ориентированный, удаляем список, проходим по всем спискам в поисках ребер
             {
+                EdgesCount = EdgesCount - Adj[i].Length;
                 Adj.Remove(Adj[i]); //удалили вершину
                 for (int j = 0; j < Adj.Count; j++) //ищем и удаляем ребра
                 {
-                    Adj[j].DeleteNode(vertex);
+                   for (var q = Adj[j].Head; q != null; q = q.Next)
+                   {
+                       if(q == null)
+                           break;
+                      // Adj[i].DeleteNode(q.AdjEdge.Vertex1, vertex);
+                       //Adj[i].DeleteNode(q.AdjEdge.Vertex2, vertex);
+                       DeleteEdge(q.AdjEdge.Vertex1, vertex);
+                     //  DeleteEdge(q.AdjEdge.Vertex2, vertex);
+                   }
+                   // Adj[j].DeleteNode(vertex);
                 }
                 Vertexes.Remove(vertex);
                 return true;
@@ -82,7 +94,9 @@ namespace ConsoleApplication2
                 {
                     if (q == null)
                         break;
+
                     DeleteEdge(q.AdjEdge.Vertex1, q.AdjEdge.Vertex2); //удаляем ребра
+                   // DeleteEdge(q.AdjEdge.Vertex2, q.AdjEdge.Vertex1);
                 }
                 Adj.Remove(Adj[i]);
                 Vertexes.Remove(vertex);
@@ -162,9 +176,14 @@ namespace ConsoleApplication2
                     var v = Adj[i];
                     if (vertex1.Index == v.AdjIndex) //если нашли исходящую вершину
                     {
-                        EdgesCount--;
-                        return v.DeleteNode(vertex2);
+
+                        if (v.DeleteNode(vertex1, vertex2) == true)
+                        {
+                            EdgesCount--;
+                            return true;
+                        }
                     }
+                    
                 }
                 return false;
             }
@@ -174,27 +193,39 @@ namespace ConsoleApplication2
                 bool flag1 = false;
                 bool flag2 = false;
 
+                int vInd1;
+                int vInd2;
+                bool changed = false;
+
+                if (vertex1.Index > vertex2.Index)
+                {
+                    changed = true;
+                    vInd1 = vertex2.Index;
+                    vInd2 = vertex1.Index;
+                }
+
+                else
+                {
+                    vInd1 = vertex1.Index;
+                    vInd2 = vertex2.Index;
+                }
+
                 for (int i = 0; i < Adj.Count; i++)
                 {
-                    var v = Adj[i];
-                    if (vertex1.Index == v.AdjIndex) //если нашли исходящую вершину
+                    if (Adj[i].AdjIndex == vInd1)
                     {
-                        flag1 = v.DeleteNode(vertex2);
+                        if (changed == false)
+                            flag1 = Adj[i].DeleteNode(vertex2, vertex1);
+                        else
+                            flag1 = Adj[i].DeleteNode(vertex1, vertex2);
                     }
 
-                    if (vertex2.Index == v.AdjIndex) //если нашли исходящую вершину
+                    if (Adj[i].AdjIndex == vInd2)
                     {
-                        flag1 = v.DeleteNode(vertex1);
-                    }
-
-                    if (vertex2.Index == v.AdjIndex) //если нашли исходящую вершину
-                    {
-                        flag2 = v.DeleteNode(vertex2);
-                    }
-
-                    if (vertex1.Index == v.AdjIndex) //если нашли исходящую вершину
-                    {
-                        flag2 = v.DeleteNode(vertex1);
+                        if (changed == false)
+                            flag2 = Adj[i].DeleteNode(vertex2, vertex1);
+                        else
+                            flag2 = Adj[i].DeleteNode(vertex1, vertex2);
                     }
                 }
 
@@ -202,7 +233,57 @@ namespace ConsoleApplication2
                     EdgesCount--;
                 return (flag1 && flag2);
             }
+            return false;
         }
+
+        public override Edge<TEdge, TWeight, TVertex> GetEdge(Vertex<TVertex> v1, Vertex<TVertex> v2)
+        {
+            for (int i = 0; i < Vertexes.Count; i++)
+            {
+                if (Adj[i].AdjIndex == v1.Index)
+                {
+                    for (var q = Adj[i].Head; q != null; q = q.Next)
+                    {
+                        if (q == null)
+                            return null;
+                        if (q.AdjEdge.Vertex1.Index == v1.Index && q.AdjEdge.Vertex2.Index == v2.Index)
+                            return q.AdjEdge;
+                        if (q.AdjEdge.Vertex1.Index == v2.Index && q.AdjEdge.Vertex2.Index == v1.Index)
+                            return q.AdjEdge;
+                    }
+                }
+            }
+            return null;
+        }
+
+        //var v = Adj[i];
+                //if (vertex1.Index == v.AdjIndex) //если нашли исходящую вершину
+                //{
+                //    flag1 = v.DeleteNode(vertex2);
+                //}
+
+                //if (vertex2.Index == v.AdjIndex) //если нашли исходящую вершину
+                //{
+                //    flag1 = v.DeleteNode(vertex1);
+                //}
+
+
+                //if (vertex2.Index == v.AdjIndex) //если нашли исходящую вершину
+                //{
+                //    flag2 = v.DeleteNode(vertex2);
+                //}
+
+                //if (vertex1.Index == v.AdjIndex) //если нашли исходящую вершину
+                //{
+                //    flag2 = v.DeleteNode(vertex1);
+                //}
+        //    }
+
+        //        if (flag1 || flag2)
+        //            EdgesCount--;
+        //        return (flag1 || flag2);
+        //    }
+        //}
 
         internal class LIteratorAllEdges : Graph<TVertex, TEdge, TData, TWeight>.IteratorAllEdges
         {
@@ -400,7 +481,7 @@ namespace ConsoleApplication2
                     {
                         if (q == null)
                             break;
-                        if (q.AdjEdge.Vertex1.Equals(Input().Vertex1) && q.AdjEdge.Vertex2.Equals(Input().Vertex2)) //если q совпадает с текущим положением итератора
+                        if (q.AdjEdge.Vertex1.Index == Input().Vertex1.Index && q.AdjEdge.Vertex2.Index == Input().Vertex2.Index) //если q совпадает с текущим положением итератора
                         {
                             if (q.Next != null)
                             {
@@ -434,7 +515,7 @@ namespace ConsoleApplication2
 
             public override Edge<TEdge, TWeight, TVertex> Input()
             {
-                if (State == false)
+                if (State == false || ItGraph.EdgesCount == 0)
                     return null;
                 var q = ItGraph.Adj[I].Head;
                 if (J == 0)
@@ -560,7 +641,7 @@ namespace ConsoleApplication2
                         {
                             if(q == null)
                                 break;
-                            if (q.AdjEdge.Vertex2.Equals(ItVertex))//нашли (v1, v2), где v1 - начало, v2 - конец
+                            if (q.AdjEdge.Vertex2.Index == (ItVertex.Index))//нашли (v1, v2), где v1 - начало, v2 - конец
                             {
                                 State = true;
                                 I = i;
@@ -609,7 +690,7 @@ namespace ConsoleApplication2
                                 break;
                         if (ItGraph.Adj[i].Length == 1) //если один элемент 
                         {
-                            if (ItGraph.Adj[i].Head.AdjEdge.Vertex2.Equals(ItVertex)) //если в первом
+                            if (ItGraph.Adj[i].Head.AdjEdge.Vertex2.Index == ItVertex.Index) //если в первом
                             {
                                 State = true;
                                 I = i;
@@ -639,7 +720,7 @@ namespace ConsoleApplication2
                                 if (q == null)
                                     break;
 
-                                if (q.AdjEdge.Vertex2.Equals(ItVertex))
+                                if (q.AdjEdge.Vertex2.Index == ItVertex.Index)
                                 {
                                     I = i;
                                     J = k;

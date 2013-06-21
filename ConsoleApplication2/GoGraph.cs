@@ -8,44 +8,7 @@ namespace ConsoleApplication2
     class GoGraph<TVertex, TEdge, TData, TWeight>
     {
         public Graph<TVertex, TEdge, TData, TWeight> G;
-       // public bool Oriented;
-       // public bool Type;
-
-        //internal abstract class IteratorAllEdges
-        //{
-        //    public int I;
-        //    public int J;
-        //    public bool State; //0 - не установлен, 1 - установлен
-        //    public Graph<TVertex, TEdge, TData, TWeight> ItGraph;
-
-        //    public IteratorAllEdges(Graph<TVertex, TEdge, TData, TWeight> g)
-        //    {
-        //        State = false;
-        //        // ItGraph = g;
-        //        I = 0;
-        //        J = 0;
-        //    }
-
-        //    public IteratorAllEdges MakeIt(Graph<TVertex, TEdge, TData, TWeight> g)
-        //    {
-        //        if (g.Type == false)
-        //        {
-        //            var q = new LGraph<TVertex, TEdge, TData, TWeight>.LIteratorAllEdges(g);
-        //            return q;
-        //        }
-
-        //        else
-        //        {
-        //            var q = new MGraph<TVertex, TEdge, TData, TWeight>.MIteratorAllEdges(g);
-        //            return q;
-        //        }
-        //    }
-
-        //    public abstract bool Beg();
-        //    public abstract bool End();
-        //    public abstract void Next();
-        //    public abstract Edge<TEdge, TWeight, TVertex> Input();
-        //}
+      
 
         public GoGraph()
         {
@@ -64,31 +27,32 @@ namespace ConsoleApplication2
 
         public void Reverse()
         {
-            var g = G;
-            if (G.Type)//если M, то в L
+           // var g = G;
+            if (G.Type == true)//если M, то в L
             {
-                G = new LGraph<TVertex, TEdge, TData, TWeight>();
-                G.Oriented = g.Oriented;
-                for (int i = 0; i < g.Vertexes.Count; i++)//пополняем вектор смежности
+                G.Adj = new List<AdjList<TVertex, TEdge, TData, TWeight>>();
+                for (int i = 0; i < G.Vertexes.Count; i++)//пополняем вектор смежности
                 {
-                    var A = new AdjList<TVertex, TEdge, TData, TWeight>();
-                    A.AdjIndex = g.Vertexes[i].Index;
-                    G.Adj.Add(A);
+                    G.Adj.Add(new AdjList<TVertex, TEdge, TData, TWeight>());
+                    G.Adj[i].AdjIndex = G.Vertexes[i].Index;
                 }
                 
-                for (int i = 0; i < g.Vertexes.Count; i++)
+                for (int i = 0; i < G.Vertexes.Count; i++)
                 {
-                    for (int j = 0; j < g.Vertexes.Count; j++)
+                    for (int j = 0; j < G.Vertexes.Count; j++)
                     {
-                        if (g.Matrix[i, j] != null)
+                        if (G.Matrix[i, j] != null)
                         {
-                            G.Adj[i].AddNode(g.Matrix[i, j]);
+                            G.Adj[i].AddNode(G.Matrix[i, j]);
                         }
                     }
                 }
-               // G.Type = false;
-                g = null;
+
+                G.Type = false;
+                G.Matrix = null;
+                // g = null;
             }
+
             else//из L в M
             {
                 G.Matrix = new Edge<TEdge, TWeight, TVertex>[G.Vertexes.Count,G.Vertexes.Count];
@@ -102,42 +66,50 @@ namespace ConsoleApplication2
                     }
                 }
                 G.Adj = null;
-               // G.Type = true;
+                G.Type = true;
             }
         }
         
-        public Edge<TEdge, TWeight, TVertex> AddEdge(Vertex<TVertex> v1, Vertex<TVertex> v2)
-        {
-            return G.AddEdge(v1, v2);
-        }
+        //public Edge<TEdge, TWeight, TVertex> AddEdge(Vertex<TVertex> v1, Vertex<TVertex> v2)
+        //{
+        //    return G.AddEdge(v1, v2);
+        //}
 
-        public bool DeleteVertex(Vertex<TVertex> vertex)
-        {
-            return G.DeleteVertex(vertex);
-        }
+        //public bool DeleteVertex(Vertex<TVertex> vertex)
+        //{
+        //    return G.DeleteVertex(vertex);
+        //}
 
-        public Vertex<TVertex> AddVertex()
-        {
-            return G.AddVertex();
-        }
+        //public Vertex<TVertex> AddVertex()
+        //{
+        //    return G.AddVertex();
+        //}
 
-        public bool DeleteEdge(Vertex<TVertex> vertex1, Vertex<TVertex> vertex2)
-        {
-            return G.DeleteEdge(vertex1, vertex2);
-        }
+        //public bool DeleteEdge(Vertex<TVertex> vertex1, Vertex<TVertex> vertex2)
+        //{
+        //    return G.DeleteEdge(vertex1, vertex2);
+        //}
 
         public void Print()
         {
             string str = "";
             if (G.Type)
             {
+                string numb1 = "  ";
+                for (int y = 0; y < G.Vertexes.Count; y++)
+                {
+                    numb1 = numb1 + y.ToString();
+                }
+                Console.WriteLine(numb1);
                 for (int i = 0; i < G.Vertexes.Count; i++)
                 {
+                    str = str + i.ToString() + " ";
                     for (int j = 0; j < G.Vertexes.Count; j++)
                     {
                         if(G.Matrix[i, j] != null)
-                            str = str + " " + G.Matrix[i, j].Vertex1.Index.ToString() + " " + G.Matrix[i, j].Vertex2.Index.ToString();
-                        str = str + "   ";
+                            str = str + G.Matrix[i, j].Weight.ToString();
+                        else
+                         str = str + "-";
                     }
                     Console.WriteLine(str);
                     str = "";
@@ -145,21 +117,37 @@ namespace ConsoleApplication2
             }
             else
             {
-                for (int i = 0; i < G.Adj.Count; i++)
-                {
-                    Console.WriteLine(G.Adj[i].AdjIndex.ToString());
-                    var q = G.Adj[i].Head;
-                    if (q != null && q.AdjEdge!=null)
+               
+
+                    for (int i = 0; i < G.Adj.Count; i++)
                     {
-                        for (q = G.Adj[i].Head; (q != null); q = q.Next)
+                        Console.WriteLine(G.Adj[i].AdjIndex.ToString());
+                        var q = G.Adj[i].Head;
+                        if (q != null && q.AdjEdge != null)
                         {
-                            str = str + " " + q.AdjEdge.Vertex1.Index.ToString() + " " +
-                                  q.AdjEdge.Vertex2.Index.ToString();
+                            for (q = G.Adj[i].Head; (q != null); q = q.Next)
+                            {
+                                if (G.Oriented == false)
+                                {
+                                    if (G.Adj[i].AdjIndex == q.AdjEdge.Vertex1.Index)
+                                    {
+                                        str = str + " " + q.AdjEdge.Vertex2.Index.ToString();
+                                    }
+                                    else
+                                    {
+                                        str = str + " " + q.AdjEdge.Vertex1.Index.ToString();
+                                    }
+                                }
+
+                                else
+                                {
+                                    str = str + " " + q.AdjEdge.Vertex2.Index.ToString();
+                                }
+                            }
+                            Console.WriteLine(str);
                         }
-                        Console.WriteLine(str);
+                        str = "";
                     }
-                    str = "";
-                }
             }
         }
     }
