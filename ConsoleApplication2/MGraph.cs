@@ -147,26 +147,26 @@ namespace ConsoleApplication2
             }
         }
 
-        public override Edge<TEdge, TWeight, TVertex> GetEdge(Vertex<TVertex> v1, Vertex<TVertex> v2)
-        {
-            int i, j;
-            for (i = 0; i < Vertexes.Count; i++)
-            {
-                if(Vertexes[i].Index == v1.Index)
-                    break;
-            }
+        //public override Edge<TEdge, TWeight, TVertex> GetEdge(Vertex<TVertex> v1, Vertex<TVertex> v2)
+        //{
+        //    int i, j;
+        //    for (i = 0; i < Vertexes.Count; i++)
+        //    {
+        //        if(Vertexes[i].Index == v1.Index)
+        //            break;
+        //    }
 
-            for (j = 0; j < Vertexes.Count; j++)
-            {
-                if(Vertexes[j].Index == v2.Index)
-                    break;
-            }
+        //    for (j = 0; j < Vertexes.Count; j++)
+        //    {
+        //        if(Vertexes[j].Index == v2.Index)
+        //            break;
+        //    }
 
-            if (i >= Vertexes.Count || j >= Vertexes.Count)
-                return null;
+        //    if (i >= Vertexes.Count || j >= Vertexes.Count)
+        //        return null;
 
-            return Matrix[i, j];
-        }
+        //    return Matrix[i, j];
+        //}
 
         public override bool DeleteEdge(Vertex<TVertex> v1, Vertex<TVertex> v2)
         {

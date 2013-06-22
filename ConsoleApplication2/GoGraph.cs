@@ -25,6 +25,49 @@ namespace ConsoleApplication2
             G = Graph<TVertex, TEdge, TData, TWeight>.MakeGraph(V, E, D, F);
         }
 
+        public Edge<TEdge, TWeight, TVertex> GetEdge(Vertex<TVertex> v1, Vertex<TVertex> v2)
+        {
+            if (G.Type == true)
+            {
+                int i, j;
+                for (i = 0; i < G.Vertexes.Count; i++)
+                {
+                    if (G.Vertexes[i].Index == v1.Index)
+                        break;
+                }
+
+                for (j = 0; j < G.Vertexes.Count; j++)
+                {
+                    if (G.Vertexes[j].Index == v2.Index)
+                        break;
+                }
+
+                if (i >= G.Vertexes.Count || j >= G.Vertexes.Count)
+                    return null;
+
+                return G.Matrix[i, j];
+            }
+            else
+            {
+                for (int i = 0; i < G.Vertexes.Count; i++)
+                {
+                    if (G.Adj[i].AdjIndex == v1.Index)
+                    {
+                        for (var q = G.Adj[i].Head; q != null; q = q.Next)
+                        {
+                            if (q == null)
+                                return null;
+                            if (q.AdjEdge.Vertex1.Index == v1.Index && q.AdjEdge.Vertex2.Index == v2.Index)
+                                return q.AdjEdge;
+                            if (q.AdjEdge.Vertex1.Index == v2.Index && q.AdjEdge.Vertex2.Index == v1.Index)
+                                return q.AdjEdge;
+                        }
+                    }
+                }
+                return null;
+            }
+        }
+
         public void Reverse()
         {
            // var g = G;
@@ -70,25 +113,6 @@ namespace ConsoleApplication2
             }
         }
         
-        //public Edge<TEdge, TWeight, TVertex> AddEdge(Vertex<TVertex> v1, Vertex<TVertex> v2)
-        //{
-        //    return G.AddEdge(v1, v2);
-        //}
-
-        //public bool DeleteVertex(Vertex<TVertex> vertex)
-        //{
-        //    return G.DeleteVertex(vertex);
-        //}
-
-        //public Vertex<TVertex> AddVertex()
-        //{
-        //    return G.AddVertex();
-        //}
-
-        //public bool DeleteEdge(Vertex<TVertex> vertex1, Vertex<TVertex> vertex2)
-        //{
-        //    return G.DeleteEdge(vertex1, vertex2);
-        //}
 
         public void Print()
         {

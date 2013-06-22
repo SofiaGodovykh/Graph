@@ -236,25 +236,25 @@ namespace ConsoleApplication2
             return false;
         }
 
-        public override Edge<TEdge, TWeight, TVertex> GetEdge(Vertex<TVertex> v1, Vertex<TVertex> v2)
-        {
-            for (int i = 0; i < Vertexes.Count; i++)
-            {
-                if (Adj[i].AdjIndex == v1.Index)
-                {
-                    for (var q = Adj[i].Head; q != null; q = q.Next)
-                    {
-                        if (q == null)
-                            return null;
-                        if (q.AdjEdge.Vertex1.Index == v1.Index && q.AdjEdge.Vertex2.Index == v2.Index)
-                            return q.AdjEdge;
-                        if (q.AdjEdge.Vertex1.Index == v2.Index && q.AdjEdge.Vertex2.Index == v1.Index)
-                            return q.AdjEdge;
-                    }
-                }
-            }
-            return null;
-        }
+        //public override Edge<TEdge, TWeight, TVertex> GetEdge(Vertex<TVertex> v1, Vertex<TVertex> v2)
+        //{
+        //    for (int i = 0; i < Vertexes.Count; i++)
+        //    {
+        //        if (Adj[i].AdjIndex == v1.Index)
+        //        {
+        //            for (var q = Adj[i].Head; q != null; q = q.Next)
+        //            {
+        //                if (q == null)
+        //                    return null;
+        //                if (q.AdjEdge.Vertex1.Index == v1.Index && q.AdjEdge.Vertex2.Index == v2.Index)
+        //                    return q.AdjEdge;
+        //                if (q.AdjEdge.Vertex1.Index == v2.Index && q.AdjEdge.Vertex2.Index == v1.Index)
+        //                    return q.AdjEdge;
+        //            }
+        //        }
+        //    }
+        //    return null;
+        //}
 
         //var v = Adj[i];
                 //if (vertex1.Index == v.AdjIndex) //если нашли исходящую вершину

@@ -132,18 +132,18 @@ namespace ConsoleApplication2
         {
             public bool VS;
 			public int CurrentCur;
-            public Graph<TVertex, TEdge, TData, TWeight> G;
+            public Graph<TVertex, TEdge, TData, TWeight> iGG;
 			
             public IteratorVertexes(Graph<TVertex, TEdge, TData, TWeight> g)
             {
                 VS = false;
-                G = g;
+                iGG = g;
                 CurrentCur = 0;
             }
 
             public Vertex<TVertex> Beg()
             {
-                if (G.Vertexes.Count == 0)
+                if (iGG.Vertexes.Count == 0)
                 {
                     VS = false;
                     return null;
@@ -153,13 +153,13 @@ namespace ConsoleApplication2
                 {
                     VS = true;
                     CurrentCur = 0;
-                    return G.Vertexes[0];
+                    return iGG.Vertexes[0];
                 }
             }
 			
 			public Vertex<TVertex> End()
             {
-			    if (G.Vertexes.Count == 0)
+			    if (iGG.Vertexes.Count == 0)
 			    {
 			        VS = false;
 			        return null;
@@ -168,8 +168,8 @@ namespace ConsoleApplication2
 			    else
 			    {
 			        VS = true;
-			        CurrentCur = G.Vertexes.Count - 1;
-			        return G.Vertexes[G.Vertexes.Count - 1];
+			        CurrentCur = iGG.Vertexes.Count - 1;
+			        return iGG.Vertexes[iGG.Vertexes.Count - 1];
 			    }
             }
 			
@@ -177,7 +177,7 @@ namespace ConsoleApplication2
             {
                 if(VS)
                 CurrentCur++;
-                if (CurrentCur == G.Vertexes.Count)
+                if (CurrentCur >= iGG.Vertexes.Count)
                 {
                     VS = false;
                 }
@@ -189,7 +189,7 @@ namespace ConsoleApplication2
                      return null;
                  else
                  {
-                     return G.Vertexes[CurrentCur];
+                     return iGG.Vertexes[CurrentCur];
                  }
              }
         }
@@ -228,6 +228,13 @@ namespace ConsoleApplication2
         static public void Clear(Graph<TVertex, TEdge, TData, TWeight> graph)
         {
             graph = null;
+        }
+
+        public Vertex<TVertex> GetVertex(int i)
+        {
+            if (i >= Vertexes.Count)
+                return null;
+            return Vertexes[i];
         }
 
         static public Graph<TVertex, TEdge, TData, TWeight> MakeGraph(int V, int E, bool D, bool F)
@@ -271,6 +278,6 @@ namespace ConsoleApplication2
         public abstract bool DeleteVertex(Vertex<TVertex> vertex);
         public abstract Vertex<TVertex> AddVertex();
         public abstract bool DeleteEdge(Vertex<TVertex> vertex1, Vertex<TVertex> vertex2);
-        public abstract Edge<TEdge, TWeight, TVertex> GetEdge(Vertex<TVertex> v1, Vertex<TVertex> v2);
+      //  public abstract Edge<TEdge, TWeight, TVertex> GetEdge(Vertex<TVertex> v1, Vertex<TVertex> v2);
     }
 }

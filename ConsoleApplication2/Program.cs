@@ -41,6 +41,8 @@ namespace ConsoleApplication2
             Console.WriteLine("21 - Прим");
             Console.WriteLine("22 - чтение ребра");
             Console.WriteLine("23 - изменение ребра");
+            Console.WriteLine("24 - чтение вершины");
+            Console.WriteLine("25 - изменение вершины");
             Console.WriteLine("0 - выход");
         }
 
@@ -87,6 +89,11 @@ namespace ConsoleApplication2
 
                     case 4:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             var t = e.G.AddVertex();
                             Console.WriteLine("Добавлена вершина с индексом " + t.Index.ToString());
                             break;
@@ -94,6 +101,11 @@ namespace ConsoleApplication2
 
                     case 5:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             Console.WriteLine("Введите номера вершин");
                             int V1 = int.Parse(Console.ReadLine());
                             int V2 = int.Parse(Console.ReadLine());
@@ -119,6 +131,11 @@ namespace ConsoleApplication2
 
                     case 6:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             Console.WriteLine("Введите номер вершины");
                             int V1 = int.Parse(Console.ReadLine());
                             // var v = GRAPH.G.Vertexes[V1];
@@ -134,6 +151,11 @@ namespace ConsoleApplication2
 
                     case 7:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             Console.WriteLine("Введите номера вершин");
                             int V1 = int.Parse(Console.ReadLine());
                             int V2 = int.Parse(Console.ReadLine());
@@ -149,6 +171,11 @@ namespace ConsoleApplication2
                         }
                     case 8:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             if (e.G == null)
                             {
                                 Console.WriteLine("null");
@@ -160,6 +187,11 @@ namespace ConsoleApplication2
                         }
                     case 9:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             if (e.G == null)
                             {
                                 Console.WriteLine("null");
@@ -175,6 +207,11 @@ namespace ConsoleApplication2
                         }
                     case 11:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             Console.WriteLine("Итератор вершин");
                             ItAllVer(e);
                             break;
@@ -183,12 +220,22 @@ namespace ConsoleApplication2
 
                     case 12:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             Console.WriteLine("Итератор всех ребер");
                             ItAllEdges(e);
                             break;
                         }
                     case 13:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             Console.WriteLine("Итератор исходящих ребер");
                             ItOutEdge(e);
                             break;
@@ -196,12 +243,22 @@ namespace ConsoleApplication2
 
                     case 14:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             Console.WriteLine("Итератор входящих ребер");
                             ItInEdge(e);
                             break;
                         }
                     case 15:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             Console.WriteLine(e.G.Saturation().ToString());
                             break;
                         }
@@ -212,21 +269,41 @@ namespace ConsoleApplication2
                         }
                     case 17:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             Console.WriteLine(e.G.Vertexes.Count.ToString());
                             break;
                         }
                     case 18:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             Console.WriteLine(e.G.Type.ToString());
                             break;
                         }
                     case 19:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             Console.WriteLine(e.G.Oriented);
                             break;
                         }
                     case 20:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             Console.WriteLine("Сортировка");
                             var Task1 = new DAGSort<string, string, TTData, float>(e);
                             Task1.EnterSort();
@@ -234,6 +311,11 @@ namespace ConsoleApplication2
                         }
                     case 21:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             Console.WriteLine("Алгоритм Прима");
                             Console.WriteLine("Введите номер истока");
                             int y = int.Parse(Console.ReadLine());
@@ -249,6 +331,11 @@ namespace ConsoleApplication2
                         }
                     case 22:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             Console.WriteLine("Введите номера вершин");
                             int vv1 = int.Parse(Console.ReadLine());
                             int vv2 = int.Parse(Console.ReadLine());
@@ -257,7 +344,7 @@ namespace ConsoleApplication2
                                 Console.WriteLine("Неверные вершины");
                                 break;
                             }
-                            var t = e.G.GetEdge(e.G.Vertexes[vv1], e.G.Vertexes[vv2]);
+                            var t = e.GetEdge(e.G.Vertexes[vv1], e.G.Vertexes[vv2]);
                             if (t == null)
                             {
                                 Console.WriteLine("null");
@@ -268,6 +355,11 @@ namespace ConsoleApplication2
                         }
                     case 23:
                         {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             Console.WriteLine("Введите номера вершин");
                             int vv1 = int.Parse(Console.ReadLine());
                             int vv2 = int.Parse(Console.ReadLine());
@@ -281,10 +373,11 @@ namespace ConsoleApplication2
                                 break;
                             }
 
-                            if (e.G.GetEdge(e.G.Vertexes[vv1], e.G.Vertexes[vv2]) != null)
+                            if (e.GetEdge(e.G.Vertexes[vv1], e.G.Vertexes[vv2]) != null)
                             {
-                                e.G.GetEdge(e.G.Vertexes[vv1], e.G.Vertexes[vv2]).Weight = ww1;
+                                e.GetEdge(e.G.Vertexes[vv1], e.G.Vertexes[vv2]).Weight = ww1;
                                 Console.WriteLine("Вес изменен");
+                                break;
                             }
 
                             else
@@ -293,6 +386,49 @@ namespace ConsoleApplication2
                                 break;
                             }
                           //  Console.WriteLine("Из вершины " + t.Vertex1.Index + " в вершину " + t.Vertex2.Index + " вес " + t.Weight + "данные " + t.Data);
+                            break;
+                        }
+                    case 24:
+                        {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
+                            Console.WriteLine("Введите номер вершины");
+                            int y111 = int.Parse(Console.ReadLine());
+                            var a = e.G.GetVertex(y111);
+                            if (a == null)
+                            {
+                                Console.WriteLine("Неверная вершина");
+                                break;
+                            }
+                            Console.WriteLine("Индекс " + a.Index + " данные " + a.Data + " имя " + a.Name);
+                            break;
+                        }
+
+                    case 25:
+                        {
+                            if (e == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
+                            Console.WriteLine("Введите номер вершины");
+                            int y111 = int.Parse(Console.ReadLine());
+                            Console.WriteLine("Ведите данные и имя");
+                            string h1 = (Console.ReadLine());
+                            string h2 = (Console.ReadLine());
+
+                            var a = e.G.GetVertex(y111);
+                            if (a == null)
+                            {
+                                Console.WriteLine("Неверная вершина");
+                                break;
+                            }
+                            a.Name = h2;
+                            a.Data = h1;
+                            Console.WriteLine("Данные изменены");
                             break;
                         }
                 }
@@ -547,7 +683,7 @@ namespace ConsoleApplication2
                                 Console.WriteLine("null");
                                 break;
                             }
-                            Console.WriteLine("Индекс " + a.Index.ToString() + " с именем " + a.Name.ToString() + " с данными " + a.Data.ToString());
+                            Console.WriteLine("Индекс " + a.Index.ToString());
                             break;
                         }
                     case 5:
