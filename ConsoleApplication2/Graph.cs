@@ -18,10 +18,10 @@ namespace ConsoleApplication2
 
         internal abstract class IteratorAllEdges
         {
-            public int I;
-            public int J;
-            public bool State; //0 - не установлен, 1 - установлен
-            public Graph<TVertex, TEdge, TData, TWeight> ItGraph;
+            protected int I;
+            protected int J;
+            protected bool State; //0 - не установлен, 1 - установлен
+            protected Graph<TVertex, TEdge, TData, TWeight> ItGraph;
 
             public IteratorAllEdges(Graph<TVertex, TEdge, TData, TWeight> g)
             {
@@ -54,10 +54,10 @@ namespace ConsoleApplication2
 
         internal abstract class IteratorOutEdge
         {
-            public Vertex<TVertex> ItVertex;
-            public bool State;
-            public int J;
-            public Graph<TVertex, TEdge, TData, TWeight> ItGraph;
+            protected Vertex<TVertex> ItVertex;
+            protected bool State;
+            protected int J;
+            protected Graph<TVertex, TEdge, TData, TWeight> ItGraph;
 
             public IteratorOutEdge(Vertex<TVertex> v, Graph<TVertex, TEdge, TData, TWeight> g)
             {
@@ -91,11 +91,11 @@ namespace ConsoleApplication2
 
         internal abstract class IteratorInputEdge
         {
-            public Vertex<TVertex> ItVertex;
-            public bool State;
-            public int J;
-            public int I;
-            public Graph<TVertex, TEdge, TData, TWeight> ItGraph;
+            protected Vertex<TVertex> ItVertex;
+            protected bool State;
+            protected int J;
+            protected int I;
+            protected Graph<TVertex, TEdge, TData, TWeight> ItGraph;
 
             public IteratorInputEdge(Vertex<TVertex> v, Graph<TVertex, TEdge, TData, TWeight> g)
             {
@@ -130,9 +130,9 @@ namespace ConsoleApplication2
 
         public class IteratorVertexes<TVertex, TEdge, TData, TWeight>
         {
-            public bool VS;
-			public int CurrentCur;
-            public Graph<TVertex, TEdge, TData, TWeight> iGG;
+            private bool VS;
+			private int CurrentCur;
+            private Graph<TVertex, TEdge, TData, TWeight> iGG;
 			
             public IteratorVertexes(Graph<TVertex, TEdge, TData, TWeight> g)
             {

@@ -40,7 +40,7 @@ namespace ConsoleApplication2
             do
             {
                 Random r = new Random();
-                if (AddEdge(Vertexes[r.Next(Vertexes.Count)], Vertexes[r.Next(Vertexes.Count)]) != null)
+                if (Vertexes.Count != 0 && AddEdge(Vertexes[r.Next(Vertexes.Count)], Vertexes[r.Next(Vertexes.Count)]) != null)
                     numberEdge--; //вставляем ребро со случайными вершинами
             } while (numberEdge != 0);
         }

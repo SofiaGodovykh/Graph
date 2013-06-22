@@ -39,8 +39,8 @@ namespace ConsoleApplication2
             Console.WriteLine("19 - тип");
             Console.WriteLine("20 - Сортировка");
             Console.WriteLine("21 - Прим");
-            Console.WriteLine("22 - чтение ребра");
-            Console.WriteLine("23 - изменение ребра");
+            Console.WriteLine("22 - работа с ребром");
+            //Console.WriteLine("23 - изменение ребра");
             Console.WriteLine("24 - чтение вершины");
             Console.WriteLine("25 - изменение вершины");
             Console.WriteLine("0 - выход");
@@ -350,44 +350,45 @@ namespace ConsoleApplication2
                                 Console.WriteLine("null");
                                 break;
                             }
-                            Console.WriteLine("Из вершины " + t.Vertex1.Index + " в вершину " + t.Vertex2.Index + " вес " + t.Weight);
+                           // Console.WriteLine("Из вершины " + t.Vertex1.Index + " в вершину " + t.Vertex2.Index + " вес " + t.Weight);
+                            GoEdge(t, e);
                             break;
                         }
-                    case 23:
-                        {
-                            if (e == null)
-                            {
-                                Console.WriteLine("Ошибка");
-                                break;
-                            }
-                            Console.WriteLine("Введите номера вершин");
-                            int vv1 = int.Parse(Console.ReadLine());
-                            int vv2 = int.Parse(Console.ReadLine());
+                    //case 23:
+                    //    {
+                    //        if (e == null)
+                    //        {
+                    //            Console.WriteLine("Ошибка");
+                    //            break;
+                    //        }
+                    //        Console.WriteLine("Введите номера вершин");
+                    //        int vv1 = int.Parse(Console.ReadLine());
+                    //        int vv2 = int.Parse(Console.ReadLine());
 
-                            Console.WriteLine("Введите вес");
-                            float ww1 = float.Parse(Console.ReadLine());
+                    //        Console.WriteLine("Введите вес");
+                    //        float ww1 = float.Parse(Console.ReadLine());
                             
-                            if (vv1 >= e.G.Vertexes.Count || vv2 >= e.G.Vertexes.Count)
-                            {
-                                Console.WriteLine("Неверные вершины");
-                                break;
-                            }
+                    //        if (vv1 >= e.G.Vertexes.Count || vv2 >= e.G.Vertexes.Count)
+                    //        {
+                    //            Console.WriteLine("Неверные вершины");
+                    //            break;
+                    //        }
 
-                            if (e.GetEdge(e.G.Vertexes[vv1], e.G.Vertexes[vv2]) != null)
-                            {
-                                e.GetEdge(e.G.Vertexes[vv1], e.G.Vertexes[vv2]).Weight = ww1;
-                                Console.WriteLine("Вес изменен");
-                                break;
-                            }
+                    //        if (e.GetEdge(e.G.Vertexes[vv1], e.G.Vertexes[vv2]) != null)
+                    //        {
+                    //            e.GetEdge(e.G.Vertexes[vv1], e.G.Vertexes[vv2]).Weight = ww1;
+                    //            Console.WriteLine("Вес изменен");
+                    //            break;
+                    //        }
 
-                            else
-                            {
-                                Console.WriteLine("null");
-                                break;
-                            }
-                          //  Console.WriteLine("Из вершины " + t.Vertex1.Index + " в вершину " + t.Vertex2.Index + " вес " + t.Weight + "данные " + t.Data);
-                            break;
-                        }
+                    //        else
+                    //        {
+                    //            Console.WriteLine("null");
+                    //            break;
+                    //        }
+                    //      //  Console.WriteLine("Из вершины " + t.Vertex1.Index + " в вершину " + t.Vertex2.Index + " вес " + t.Weight + "данные " + t.Data);
+                    //        break;
+                    //    }
                     case 24:
                         {
                             if (e == null)
@@ -542,10 +543,15 @@ namespace ConsoleApplication2
                         }
                     case 4:
                         {
+                            if (it.Input() == null)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
                             var a = it.Input();
                             Console.WriteLine("Исходящая " + a.Vertex1.Index.ToString() + " входящая " +
-                                              a.Vertex2.Index.ToString() + " с весом " + a.Weight.ToString() +
-                                              " и данными " + a.Data.ToString());
+                                              a.Vertex2.Index.ToString() + " с весом " + a.Weight +
+                                              " и данными " + a.Data);
                             break;
                         }
                     case 5:
@@ -566,6 +572,87 @@ namespace ConsoleApplication2
                             break;
                         }
                     case 6:
+                        {
+                            return;
+                            break;
+                        }
+                    default:
+                        break;
+                }
+
+            }
+        }
+
+        public static void GoEdge(Edge<string, float, string> edge, GoGraph<string, string, TTData, float> e)
+        {
+            if (edge == null)
+            {
+                Console.WriteLine("ошибка");
+                return;
+            }
+
+            Console.WriteLine("1 - чтение ребра");
+            Console.WriteLine("2 - изменение ребра");
+            Console.WriteLine("3 - признак исхода из вершины");
+            Console.WriteLine("4 - прочитать другую вершину");
+            Console.WriteLine("5 - исходящая вершина");
+            Console.WriteLine("6 - входящая вершина");
+            Console.WriteLine("7 - выход");
+
+            for (; true;)
+            {
+                int c = int.Parse(Console.ReadLine());
+                switch (c)
+                {
+                    case 1:
+                        {
+                            Console.WriteLine("Из вершины " + edge.Vertex1.Index + " в вершину " + edge.Vertex2.Index + " с весом " + edge.Weight + " и данными " + edge.Data);
+                            break;
+                        }
+                    case 2:
+                        {
+                            Console.WriteLine("Введите вес и данные");
+                            float f1 = float.Parse(Console.ReadLine());
+                            string f2 = Console.ReadLine();
+                            edge.Weight = f1;
+                            edge.Data = f2;
+                            break;
+                        }
+                    case 3:
+                        {
+                            Console.WriteLine("Введите номер вершины");
+                            int i1 = int.Parse(Console.ReadLine());
+                            if (i1 >= e.G.Vertexes.Count)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
+                            Console.WriteLine(edge.from(e.G.Vertexes[i1]));
+                            break;
+                        }
+                    case 4:
+                        {
+                            Console.WriteLine("Введите номер вершины");
+                            int i1 = int.Parse(Console.ReadLine());
+                            if (i1 >= e.G.Vertexes.Count)
+                            {
+                                Console.WriteLine("Ошибка");
+                                break;
+                            }
+                            Console.WriteLine(edge.other(e.G.Vertexes[i1]).Index.ToString());
+                            break;
+                        }
+                    case 5:
+                        {
+                            Console.WriteLine(edge.Vertex1.Index);
+                            break;
+                        }
+                    case 6:
+                        {
+                            Console.WriteLine(edge.Vertex2.Index);
+                            break;
+                        }
+                    case 7:
                         {
                             return;
                             break;
@@ -610,10 +697,15 @@ namespace ConsoleApplication2
                         }
                     case 4:
                         {
+                            if (it.Input() == null)
+                            {
+                                Console.WriteLine("null");
+                                break;
+                            }
                             var a = it.Input();
                             Console.WriteLine("Исходящая " + a.Vertex1.Index.ToString() + " входящая " +
-                                              a.Vertex2.Index.ToString() + " с весом " + a.Weight.ToString() +
-                                              " и данными " + a.Data.ToString());
+                                              a.Vertex2.Index.ToString() + " с весом " + a.Weight +
+                                              " и данными " + a.Data);
                             break;
                         }
                     case 5:

@@ -68,29 +68,45 @@ namespace ConsoleApplication2
             }
         }
 
+        public bool Dence()
+        {
+            return G.Type;
+        }
+
         public void Reverse()
         {
            // var g = G;
             if (G.Type == true)//если M, то в L
             {
-                G.Adj = new List<AdjList<TVertex, TEdge, TData, TWeight>>();
-                for (int i = 0; i < G.Vertexes.Count; i++)//пополняем вектор смежности
+                var NewGraph = Graph<TVertex, TEdge, TData, TWeight>.MakeGraph(0, 0, G.Oriented, false);
+                NewGraph.Vertexes = G.Vertexes;
+                NewGraph.Type = G.Type;
+                NewGraph.Oriented = G.Oriented;
+                NewGraph.Weighted = G.Weighted;
+                NewGraph.CurrentIndex = G.CurrentIndex;
+                NewGraph.EdgesCount = G.EdgesCount;
+                NewGraph.Adj = G.Adj;
+                NewGraph.Matrix = G.Matrix;
+
+                NewGraph.Adj = new List<AdjList<TVertex, TEdge, TData, TWeight>>();
+                for (int i = 0; i < NewGraph.Vertexes.Count; i++)//пополняем вектор смежности
                 {
-                    G.Adj.Add(new AdjList<TVertex, TEdge, TData, TWeight>());
-                    G.Adj[i].AdjIndex = G.Vertexes[i].Index;
+                    NewGraph.Adj.Add(new AdjList<TVertex, TEdge, TData, TWeight>());
+                    NewGraph.Adj[i].AdjIndex = NewGraph.Vertexes[i].Index;
                 }
-                
-                for (int i = 0; i < G.Vertexes.Count; i++)
+
+                for (int i = 0; i < NewGraph.Vertexes.Count; i++)
                 {
-                    for (int j = 0; j < G.Vertexes.Count; j++)
+                    for (int j = 0; j < NewGraph.Vertexes.Count; j++)
                     {
-                        if (G.Matrix[i, j] != null)
+                        if (NewGraph.Matrix[i, j] != null)
                         {
-                            G.Adj[i].AddNode(G.Matrix[i, j]);
+                            NewGraph.Adj[i].AddNode(NewGraph.Matrix[i, j]);
                         }
                     }
                 }
 
+                G = NewGraph;
                 G.Type = false;
                 G.Matrix = null;
                 // g = null;
@@ -98,16 +114,29 @@ namespace ConsoleApplication2
 
             else//из L в M
             {
-                G.Matrix = new Edge<TEdge, TWeight, TVertex>[G.Vertexes.Count,G.Vertexes.Count];
-                for (int i = 0; i < G.Vertexes.Count; i++)
+                var NewGraph = Graph<TVertex, TEdge, TData, TWeight>.MakeGraph(0, 0, G.Oriented, true);
+
+                NewGraph.Vertexes = G.Vertexes;
+                NewGraph.Type = G.Type;
+                NewGraph.Oriented = G.Oriented;
+                NewGraph.Weighted = G.Weighted;
+                NewGraph.CurrentIndex = G.CurrentIndex;
+                NewGraph.EdgesCount = G.EdgesCount;
+                NewGraph.Adj = G.Adj;
+                NewGraph.Matrix = G.Matrix;
+
+                NewGraph.Matrix = new Edge<TEdge, TWeight, TVertex>[NewGraph.Vertexes.Count, NewGraph.Vertexes.Count];
+                for (int i = 0; i < NewGraph.Vertexes.Count; i++)
                 {
-                    for (var q = G.Adj[i].Head; q != null; q = q.Next)
+                    for (var q = NewGraph.Adj[i].Head; q != null; q = q.Next)
                     {
-                        G.Matrix[q.AdjEdge.Vertex1.Index, q.AdjEdge.Vertex2.Index] = q.AdjEdge;
-                        if(!G.Oriented)
-                            G.Matrix[q.AdjEdge.Vertex2.Index, q.AdjEdge.Vertex1.Index] = q.AdjEdge;
+                        NewGraph.Matrix[q.AdjEdge.Vertex1.Index, q.AdjEdge.Vertex2.Index] = q.AdjEdge;
+                        if (!NewGraph.Oriented)
+                            NewGraph.Matrix[q.AdjEdge.Vertex2.Index, q.AdjEdge.Vertex1.Index] = q.AdjEdge;
                     }
                 }
+
+                G = NewGraph;
                 G.Adj = null;
                 G.Type = true;
             }
