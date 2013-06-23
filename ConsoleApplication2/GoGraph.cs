@@ -124,15 +124,19 @@ namespace ConsoleApplication2
                 NewGraph.EdgesCount = G.EdgesCount;
                 NewGraph.Adj = G.Adj;
                 NewGraph.Matrix = G.Matrix;
+                NewGraph.Matrix = new Edge<TEdge, TWeight, TVertex>[G.Vertexes.Count,G.Vertexes.Count];
 
                 NewGraph.Matrix = new Edge<TEdge, TWeight, TVertex>[NewGraph.Vertexes.Count, NewGraph.Vertexes.Count];
                 for (int i = 0; i < NewGraph.Vertexes.Count; i++)
                 {
                     for (var q = NewGraph.Adj[i].Head; q != null; q = q.Next)
                     {
-                        NewGraph.Matrix[q.AdjEdge.Vertex1.Index, q.AdjEdge.Vertex2.Index] = q.AdjEdge;
-                        if (!NewGraph.Oriented)
-                            NewGraph.Matrix[q.AdjEdge.Vertex2.Index, q.AdjEdge.Vertex1.Index] = q.AdjEdge;
+                        if (q != null)
+                        {
+                            NewGraph.Matrix[G.Vertexes.IndexOf(q.AdjEdge.Vertex1), G.Vertexes.IndexOf(q.AdjEdge.Vertex2)] = q.AdjEdge;
+                            if (!NewGraph.Oriented)
+                                NewGraph.Matrix[G.Vertexes.IndexOf(q.AdjEdge.Vertex2), G.Vertexes.IndexOf(q.AdjEdge.Vertex1)] = q.AdjEdge;
+                        }
                     }
                 }
 
